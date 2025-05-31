@@ -1,0 +1,17 @@
+pipeline {
+    agent any
+
+    stages {
+        stage(Build) {
+            steps {
+                git 'https://github.com/octocat/Hello-World.git'
+            }
+        }
+
+        stage('List Files') {
+            steps {
+                sh 'ls -la'
+            }
+        }
+    }
+}
