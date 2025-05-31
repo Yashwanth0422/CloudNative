@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     stages {
-        stage(Build) {
+        stage('Clone Repository') {
             steps {
                 git 'https://github.com/octocat/Hello-World.git'
             }
