@@ -1,60 +1,23 @@
 pipeline {
-    agent any
-
-    environment {
-        PATH = "/usr/local/bin:/usr/bin:/bin"
+    agent any 
+        environment {
+	REPO_URL = "https://github.com/Yashwanth0422/CloudNative.git"
     }
-
+	
     stages {
-        stage('Install Dependencies') {
+        /*stage('Clone Repository')	
             steps {
-                echo 'Installing required packages using dnf...'
-                sh '''
-                    sudo dnf -y install git make gcc || echo "Packages might already be installed"
-                '''
+               giit url: "${REPO_URL}"
             }
-        }
+        }*/
 
-        stage('Checkout Code') {
+        stage(*List files') {
             steps {
-                git 'git@github.com:Yashwanth0422/CloudNative.git'
-            }
-        }
-
-        stage('Build') {
-            steps {
-                echo 'Building the project...'
-                sh '''
-                    if [ -f Makefile ]; then
-                        make build
-                    else
-                        echo "No Makefile found, skipping build"
-                    fi
-                '''
-            }
-        }
-
-        stage('Test') {
-            steps {
-                echo 'Running tests...'
-                sh '''
-                    if [ -f run_tests.sh ]; then
-                        chmod +x run_tests.sh
-                        ./run_tests.sh
-                    else
-                        echo "No test script found, skipping tests"
-                    fi
-                '''
-            }
-        }
-    }
-
-    post {
-        always {
-            echo 'Pipeline finished.'
-        }
-        failure {
-            echo 'Build failed!'
-        }
-    }
+                    sh """
+                    pwd
+                    ls -lrt
+                    """
+             }
+         }
+     }
 }
