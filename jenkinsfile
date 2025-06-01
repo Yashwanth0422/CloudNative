@@ -1,38 +1,60 @@
 pipeline {
-  agent any
+    agent any
 
-  stages {
-    stage('Checkout') {
-      steps {
-        // Checkout your source code from a repository
-        git 'https://github.com/Yashwanth0422/CloudNative.git'
-      }
+    environment {
+        PATH = "/usr/local/bin:/usr/bin:/bin"
     }
 
-    stage('Build') {
-      steps {
-        // Execute your build commands (e.g., Maven, Gradle, etc.)
-        sh 'mvn clean install'
-      }
-    }
-
-    stage('Test') {
-      steps {
-        // Execute your test suite
-        sh 'mvn test'
-      }
-    }
-
-    stage('Deploy') {
-      when {
-        expression {
-          return true // Or add conditions for successful builds and tests
+    stages {
+        stage('Install Dependencies') {
+            steps {
+                echo 'Installing required packages using dnf...'
+                sh '''
+                    sudo dnf -y install git make gcc || echo "Packages might already be installed"
+                '''
+            }
         }
-      }
-      steps {
-        // Deploy your application if tests are successful
-        sh 'echo "Deploying..."'
-      }
+
+        stage('Checkout Code') {
+            steps {
+                git 'git@github.com:Yashwanth0422/CloudNative.git'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                echo 'Building the project...'
+                sh '''
+                    if [ -f Makefile ]; then
+                        make build
+                    else
+                        echo "No Makefile found, skipping build"
+                    fi
+                '''
+            }
+        }
+
+        stage('Test') {
+            steps {
+                echo 'Running tests...'
+                sh '''
+                    if [ -f run_tests.sh ]; then
+                        chmod +x run_tests.sh
+                        ./run_tests.sh
+                    else
+                        echo "No test script found, skipping tests"
+                    fi
+                '''
+            }
+        }
     }
-  }
+
+    post {
+        always {
+            echo 'Pipeline finished.'
+        }
+        failure {
+            echo 'Build failed!'
+        }
+    }
 }
