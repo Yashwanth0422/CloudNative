@@ -1,0 +1,38 @@
+pipeline {
+  agent any
+
+  stages {
+    stage('Checkout') {
+      steps {
+        // Checkout your source code from a repository
+        git 'https://github.com/Yashwanth0422/CloudNative.git'
+      }
+    }
+
+    stage('Build') {
+      steps {
+        // Execute your build commands (e.g., Maven, Gradle, etc.)
+        sh 'mvn clean install'
+      }
+    }
+
+    stage('Test') {
+      steps {
+        // Execute your test suite
+        sh 'mvn test'
+      }
+    }
+
+    stage('Deploy') {
+      when {
+        expression {
+          return true // Or add conditions for successful builds and tests
+        }
+      }
+      steps {
+        // Deploy your application if tests are successful
+        sh 'echo "Deploying..."'
+      }
+    }
+  }
+}
