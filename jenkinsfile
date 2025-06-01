@@ -11,7 +11,7 @@ pipeline {
             }
         }*/
 
-        stage(*List files') {
+        stage('List files') {
             steps {
                     sh """
                     pwd
