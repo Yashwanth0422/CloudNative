@@ -7,7 +7,7 @@ pipeline {
     stages {
         /*stage('Clone Repository')	
             steps {
-               giit url: "${REPO_URL}"
+               git url: "${REPO_URL}"
             }
         }*/
 
