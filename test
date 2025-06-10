@@ -1,21 +1,24 @@
-Pipeline {
-   agent any
-      stages {
-         stage ('Build') {
-           steps {
-              sh ''
-       }
+pipeline {
+    agent any 
+        environment {
+	REPO_URL = "https://github.com/Yashwanth0422/CloudNative.git"
+    }
+	
+    stages {
+        /*stage('Clone Repository')	
+            steps {
+               git url: "${REPO_URL}"
+            }
+        }*/
+
+        stage('List files') {
+            steps {
+                    sh """
+                    pwd
+                    ls -lrt
+                    """
+             }
+         }
      }
-         stage ('Test') {
-           steps {
-              sh 'echo "Test Done"'
-       }
-     }
-         stage ('Deploy') {
-           steps {
-              sh 'echo "Deploy Done"'
-       }
-     }
-   }
- }
+}
 
