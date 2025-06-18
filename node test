@@ -1,10 +1,10 @@
 pipeline {
-    agent { label 'node1' }  // Run on node with label 'node1'
+    agent { label 'nodes' }  // Run on node with label 'nodes'
 
     stages {
         stage('Build') {
             steps {
-                echo 'Running on node1'
+                echo 'Running on nodes'
             }
         }
     }
