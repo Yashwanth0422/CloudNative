@@ -1,23 +1,11 @@
 pipeline {
-    agent { label node1 } node1  
-        environment {
-	REPO_URL = "https://github.com/Yashwanth0422/CloudNative.git"
-    }
-	
-    stages {
-        /*stage('Clone Repository')	
-            steps {
-               git url: "${REPO_URL}"
-            }
-        }*/
+    agent { label 'node1' }  // Run on node with label 'node1'
 
-        stage('List files') {
+    stages {
+        stage('Build') {
             steps {
-                    sh """
-                    pwd
-                    ls -lrt
-                    """
-             }
-         }
-     }
+                echo 'Running on node1'
+            }
+        }
+    }
 }
